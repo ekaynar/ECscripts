@@ -1,0 +1,10 @@
+master_port = 12345                # Reserve a port for your service.
+master_ip = 'localhost'
+L1_rgwaddr = "localhost"
+L1_rgwport = 5000 #8080
+key = "VV0IuwQmc3uigkt0dTGh92xJLOLzxi5vjoJoNY5M"
+m_res_fldr = "/root/end_to_end_exp.ugur/curlbench_master/results/" #"/home/curlbench_master/results/"
+swiftuser = "johndoe" #"testusr" #"hadoop"
+mapper_cnt = 10
+MOC_addr = "128.52.62.147"
+MOC_usr = "ukaynar"

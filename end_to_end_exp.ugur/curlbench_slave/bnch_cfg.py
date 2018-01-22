@@ -1,0 +1,9 @@
+L1_rgwaddr = "172.18.0.85" #"10.16.154.231" #"172.20.0.10"# "172.18.0.85" #"10.13.67.9"
+L1_rgwhost = "client.rgw.gprfc085" #"client.rgw.cache-c10-01" # "client.rgw.gprfc085" #client.rgw.cache-c09-01"
+L1_rgwport = 8080 #80 #8080
+L1_rgwloc = "/mnt/ssdraid0/cache/" #"/mnt/ssd1r0/cache"#"/mnt/raid0/cache/"#"/mnt/ssdraid0/cache/" #/home/cache" #raid0/cache
+key = "G0cN6IJKz0ws2QgbDjNSCSjBAOFQ63iEygpHZCpU "#"JkhQquyLTkTicEHX5vrSzO4cOovnSM1Nib7o1uDZ" #"rLSuhyfNbWZBWRFzXMhqzgHIssyaKa01aEPUKTgh" # "JkhQquyLTkTicEHX5vrSzO4cOovnSM1Nib7o1uDZ"
+logloc = "/home/curlbench_slave/results/"
+swiftuser = "testusr" #"hadoop"
+bucket_name = "rawdata2-1G"
+obj_name = "1G.file"
