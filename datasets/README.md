@@ -1,4 +1,4 @@
-# How to Use Scripts
+# window.py
 
 Edit config.ini
 ```
@@ -22,4 +22,10 @@ this outputs shows you line(start-end) and hitratio when lru used as a cache.
 then you can grap the selected window by:
 ```
 sed -n '7495000,7895000' sample.init > 36hitratio
+```
+# createJobs.py
+usage
+```
+Usage: ./createJobs <uniqfiles> <jobfiles>
+./createJobs.py 36per8m 36files 36jobs
 ```
