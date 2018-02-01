@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 def create_files(argv):
     label, lat, per = [],[],[]
     counter=0
+    name=sys.argv[1].split(".")[0]
     with open(sys.argv[1],'r') as csvfile:
             plots = csv.reader(csvfile, delimiter=',')
             for row in plots:
@@ -30,7 +31,8 @@ def create_files(argv):
     plt.ylabel('Request Count',  fontsize=20)
     plt.xlabel('Time (sec)',  fontsize=20)
     plt.title("3x Replication", fontsize=20)
-    ax1.bar(x, lat, color='b', label='3xRep With Cache')
+    plt.title("Erasure Coding", fontsize=20)
+    ax1.bar(x, lat, color='b', label='EC With Cache')
     cdf_ax = ax1.twinx()
 
 
@@ -43,7 +45,7 @@ def create_files(argv):
     
     cdf_ax.plot(per,color="r", label="CDF", marker="o")
     cdf_ax.set_ylim(0,110)
-    ax1.set_ylim(0,1600)
+    #ax1.set_ylim(0,1600)
     ax1.tick_params(axis='both', which='major', labelsize=18 , top='off')
     cdf_ax.tick_params(axis='both', which='major', labelsize=18 , top='off')
     plt.ylabel('Cummulative Percentage (%)',  fontsize=20)
@@ -72,11 +74,11 @@ def create_files(argv):
     lines2, l2=cdf_ax.get_legend_handles_labels()
     cdf_ax.legend(lines1 + lines2, l1 + l2, loc=4)
 
-    plt.xlim([0,70])
+    plt.xlim([0,100])
     plt.xticks(rotation=90)
     plt.subplots_adjust(left=0.10, bottom=0.28, right=0.91, top=0.93 , wspace=0.2 ,hspace=0.2 )
-    plt.savefig(sys.argv[1]+".pdf",bbox_inches='tight')
-    plt.savefig(sys.argv[1]+".eps",bbox_inches='tight')
+    plt.savefig(name+".pdf",bbox_inches='tight')
+    plt.savefig(name+".eps",bbox_inches='tight')
     plt.show()
 
 
