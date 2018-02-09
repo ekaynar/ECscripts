@@ -1,0 +1,9 @@
+path=""
+fname="files70fb"
+jobs=("job1" "job2" "job3" "job4")
+workers=2
+workerIP=( "192.168.67.8" "192.168.67.9")
+bnchPATH=""
+slaves=1
+slaveIP=("192.168.67.10"  "192.168.67.9" )
+slaveIP=( "192.168.67.10" "192.168.67.9")
