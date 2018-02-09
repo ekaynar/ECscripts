@@ -7,8 +7,19 @@ if [[ ! -d "$myPath" ]]; then
     myPath="$PWD"
 fi
 
+
+
 # Variables
 source "$myPath/vars.shinc"
+
+ddF=$size
+ddF+="M"
+#create fileV
+dd if=/dev/zero of=$ddF  bs=1M  count=$size &&
+echo "file is created"
+
+# Get RGW credentials
+rgwKEY=$(radosgw-admin user info --uid=$rgwUSER | grep secret_key | tail -1 | awk '{print $2}' | sed 's/"//g')
 
 
 # Split files to distribute across workers
@@ -37,9 +48,11 @@ do
 	scp -r ${files[$i]} root@${workerIP[$i]}:$path/${files[$i]}
 done
 
+
+echo "Running Upload Script"
 for i in  $(seq 0 $workers)
 do
-	ssh  root@${workerIP[$i]} "$path/2upload.py $path/${files[$i]}" &
+	ssh  root@${workerIP[$i]} "cd $path && $path/upload.py $path/${files[$i]} $rgwURL $rgwKEY $size" &
 
 done
 
