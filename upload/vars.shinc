@@ -1,0 +1,7 @@
+path="/root/ECscripts/upload"	# path for folder
+fname="files70fb"		# file with datasets
+workers=0			# number of workers (set 0 for 1 workers)
+workerIP=( "172.16.76.18")	# workers IP address
+rgwUSER="johndoe"            	# username
+rgwURL="localhost:5000"         # auth_url connection point
+size=16
