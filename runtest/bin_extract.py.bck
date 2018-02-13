@@ -23,7 +23,7 @@ name=sys.argv[1].split(".")[0]
 
 fname =  open(sys.argv[1],"r")
 outRT=name+"-RT.csv"
-warmup=20000
+warmup=0000
 
 
 lenght = sum(1 for line in open(sys.argv[1]))
@@ -38,29 +38,30 @@ for line in fname:
 		dat.append(latency*1000)		
 fname.close()
 #
-maxbin=10000
 fname= open(outRT, "w")
-
-binarray.append(float(0))
-for i in range(binsize,maxbin,binsize):
+for i in range(binsize,len(dat),binsize):
 	binarray.append(float(i))
+print dat, len(dat)
 bins = np.array(binarray)
 data = np.array(dat)
+print binarray
 inds = np.digitize(data, bins,right=False)
+print inds
+#
 counter=collections.Counter(inds)
 count=0
 sum2=0
 
 for i in range(int(1000)):
-	sum2 += counter[i+1]/float(lenght)
+	sum2 += counter[i]/float(lenght)
 	perc.append(sum2)
+
 for i in range(len(lat2)):
-#for i in range():
-	
-        line= str(int(count))+"-"+str(int(count+float(binsize))) +","+str(int(counter[i+1])) +","+ str(perc[i])+"\n"
+
+        line= str(int(count))+"-"+str(int(count+float(binsize))) +","+str(int(counter[i])) +","+ str(perc[i])+"\n"
         fname.write(line)
         count+=float(binsize)
-#	print line
+#	print str(count)+"-"+str(count+float(binsize)/100), str(int(counter[i])),str(perc[i])
 fname.close()
 
 
