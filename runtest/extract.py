@@ -16,7 +16,6 @@ if len(sys.argv) != 2:
 
 
 fname =  open(sys.argv[1],"r")
-out_file = open (sys.argv[1]+"latency", 'w')
 lat = []
 b_size=1
 outfile=sys.argv[1]+"rt.hist.csv"
