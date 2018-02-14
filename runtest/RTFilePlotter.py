@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import sys
+import matplotlib.ticker as ticker
 import datetime as dt
 import csv
 import numpy as np
@@ -19,6 +20,9 @@ def create_files(argv):
     with open(sys.argv[1],'r') as csvfile:
             plots = csv.reader(csvfile, delimiter=',')
             for row in plots:
+            # val=row[0].split("-")
+            # l = str(float(val[0])/1000)+"-"+str(float(val[1])/1000)
+            # label.append(l)
              label.append(row[0])
              lat.append(int(row[1]))    
              per.append(float(row[2])*100)
@@ -31,62 +35,77 @@ def create_files(argv):
                 x99=counter
              counter+=1
     N = len(lat)
-    print N
+    #print N
     x = range(N)
-    width = 1/1.5
-    fig = plt.figure(figsize=(11,6))
+    fig = plt.figure(figsize=(5,5))
     ax1 = fig.add_subplot(111)
-    plt.ylabel('Request Count',  fontsize=20)
-    plt.title("", fontsize=20)
-    plt.xlabel('Time (ms)',  fontsize=20)
-    ax1.bar(x, lat, color='b', label=t+c)
+    plt.ylabel('Request Count',  fontsize=14)
+    plt.xlabel('Time (ms)',  fontsize=14)
+    #ax1.bar(x, lat, color='#00008B', label=t+c)
+    ax1.bar(x, lat, color='b', label="RT",edgecolor = "none")
+    #ax1.bar(x, lat, color='b', label=t+c,edgecolor = "none")
     cdf_ax = ax1.twinx()
-
 
     # Grid
     ax1.grid(True)
     ax1.yaxis.grid(color='#CDCDC1', linestyle='-', linewidth=1)
     ax1.xaxis.grid(color='#CDCDC1', linestyle='-', linewidth=1)
     ax1.set_axisbelow(True)
-    
-    
-    cdf_ax.plot(per,color="r", label="CDF", marker="o")
+  
+ 
+    cdf_ax.plot(x,per,color="#FF8C00", label="CDF", marker="o",markeredgecolor="none")
+   # cdf_ax.plot(per,color="#00008B", label="CDF", marker="o")
     cdf_ax.set_ylim(0,110)
-    #ax1.set_ylim(0,1600)
-    ax1.tick_params(axis='both', which='major', labelsize=18 , top='off')
-    cdf_ax.tick_params(axis='both', which='major', labelsize=18 , top='off')
-    plt.ylabel('Cummulative Percentage (%)',  fontsize=20)
-    plt.title(t, fontsize=20)
-#    plt.title("3xRep with Cache", fontsize=20)
+    ax1.tick_params(axis='both', which='major', labelsize=13 , top='off')
+    cdf_ax.tick_params(axis='both', which='major', labelsize=13 , top='off')
+    plt.ylabel('Cummulative Percentage (%)',  fontsize=14)
+    plt.title(t, fontsize=16)
 
-    plt.axvline(x=x90, color='b', linestyle='--')
-    plt.axvline(x=x95, color='r', linestyle='--')
-    plt.axvline(x=x99, color='b', linestyle='--')
+    plt.axvline(x=x90, color='black', linestyle='--')
+#    plt.axvline(x=x95, color='r', linestyle='--')
+    plt.axvline(x=x99, color='black', linestyle='--')
 
-
+    # Y-Label
+    ylabels=[]
+    a=ax1.get_yticks().tolist()
+    for i in a:
+        ylabels.append(str(int(i/1000))+"K")
+    ylabels[0]=""
+    ax1.set_yticklabels(ylabels)
+    
     # X-Label
     xlabels=[]
     locations=[]
-    
-    for i in range(0,N,5):
-   	print label[i]
+    for i in range(0,N,2):
         xlabels.append(label[i])
         locations.append(i)
 
-    xticks_major = np.arange(len(label), step=5)
+    xticks_major = np.arange(len(label), step=2)
     ax1.set_xticks(xticks_major)
-    cdf_ax.set_xticks(xticks_major)
+    #cdf_ax.set_xticks(xticks_major)
     ax1.set_xticklabels(xlabels,minor=False,rotation=90)
-    cdf_ax.set_xticklabels(xlabels,minor=False,rotation=90)
+    #cdf_ax.set_xticklabels(xlabels,minor=False,rotation=90)
+
+
 
     # Legends
     lines1,l1=ax1.get_legend_handles_labels()
     lines2, l2=cdf_ax.get_legend_handles_labels()
-    cdf_ax.legend(lines1 + lines2, l1 + l2, loc=4)
-
-    plt.xlim([0,150])
+#    cdf_ax.legend(lines1 + lines2, l1 + l2,fontsize=14, bbox_to_anchor=(0., 1.02, 1., .102), loc=3, ncol=2, mode="expand", borderaxespad=0.)   
+    cdf_ax.legend(lines1 + lines2, l1 + l2,fontsize=11, loc=4)
+  #  plt.axis('equal')
     plt.xticks(rotation=90)
-    plt.subplots_adjust(left=0.14, bottom=0.38, right=0.89, top=0.87 , wspace=0.2 ,hspace=0.2 )
+
+
+    plt.xlim([0,14])
+#    lo = ax1.get_xlim()
+#    lo2 = cdf_ax.get_xlim()
+#    f = lambda x : lo2[0]+(x-lo[0])/(lo[1]-lo[0])*(lo2[1]-lo2[0])
+#    ticks = f(ax1.get_xticks())
+#    cdf_ax.xaxis.set_major_locator(ticker.FixedLocator(ticks))
+#
+    plt.rc('font', family='serif')
+    plt.subplots_adjust(left=0.18, bottom=0.38, right=0.81, top=0.87 , wspace=0.2 ,hspace=0.2 )
     #plt.subplots_adjust(left=0.10, bottom=0.28, right=0.91, top=0.93 , wspace=0.2 ,hspace=0.2 )
     plt.savefig(name+".pdf",bbox_inches='tight')
     plt.savefig(name+".eps",bbox_inches='tight')
